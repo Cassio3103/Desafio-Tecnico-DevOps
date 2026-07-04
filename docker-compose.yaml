@@ -1,0 +1,13 @@
+networks:
+  monitoring_network:
+    driver: bridge
+    name: devops-monitoring-network
+
+volumes:
+  prometheus_data:
+    name: devops-prometheus-data
+    driver: local
+
+  grafana_data:
+    name: devops-grafana-data
+    driver: local
