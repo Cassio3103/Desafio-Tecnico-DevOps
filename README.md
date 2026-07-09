@@ -44,7 +44,9 @@ HTTP Simulator
 ├── alloy/
 ├── grafana/
 │   └── dashboards/
-│       └── img.png
+│       └── dashboards.json
+    └── img/
+        └── img.png
 ├── prometheus/
 ├── docker-compose.yml
 ├── .env.example
@@ -120,12 +122,20 @@ Login utilizando as credenciais definidas no arquivo .env.
 
 - http://localhost:8080
 
+## Importando o Dashboard
+
+1. Acesse Grafana.
+2. Vá em Dashboards → New → Import.
+3. Selecione `grafana/dashboards/dashboards-desafio-devops.json`.
+4. Escolha a fonte de dados Prometheus.
+5. Clique em Import.
+
 ## Resultados
 
 Abaixo é apresentado o dashboard desenvolvido para monitoramento das métricas coletadas pelo Grafana Alloy e armazenadas no Prometheus.
 
 <p align="center">
-  <img src="grafana/dashboards/img.png" alt="Dashboard Grafana" width="900">
+  <img src="grafana/img/img.png" alt="Dashboard Grafana" width="900">
 </p>
 
 ## Decisões técnicas
