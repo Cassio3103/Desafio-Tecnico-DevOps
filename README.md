@@ -156,7 +156,6 @@ Abaixo é apresentado o dashboard desenvolvido para monitoramento das métricas 
 
 Durante o desenvolvimento foram realizados diversos testes de configuração entre o Prometheus e o Grafana Alloy. Para preservar o ambiente e os dashboards criados, optou-se por manter os dados históricos armazenados no volume do Prometheus. Como consequência, algumas métricas podem apresentar séries provenientes de configurações anteriores. Em um ambiente de produção ou em uma entrega definitiva, bastaria recriar o volume do Prometheus para iniciar a coleta com um banco de dados limpo.
 
-- Pode-se implementar a ferramente Grafana Alerting para lançamentos de alertas.
 - Adição da métrica de containers.
 - Pipeline CI/CD para deploy automático.
 
