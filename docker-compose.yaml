@@ -13,10 +13,38 @@ services:
       - monitoring_network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-q", "--tries=1", "-O-", "http://localhost:8080/metrics"]
+      test: [
+        "CMD", 
+        "wget", 
+        "-q", 
+        "--tries=1", 
+        "-O-", 
+        "http://localhost:8080/metrics"
+        ]
       interval: 10s
       timeout: 5s
       retries: 3
+
+  grafana-alloy:
+    image: grafana/alloy:${ALLOY_VERSION}
+    container_name: devops-alloy
+    ports:
+      - "${ALLOY_PORT}:12345"
+    volumes:
+      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
+    command:  
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - /etc/alloy/config.alloy
+    networks:
+      - monitoring_network
+    restart: unless-stopped
+    depends_on:
+      prom-http-simulator:
+        condition: service_healthy
+
+      prometheus:
+        condition: service_healthy    
 
   prometheus:
     image: prom/prometheus:${PROMETHEUS_VERSION}
@@ -48,26 +76,6 @@ services:
       timeout: 5s
       retries: 3
 
-  grafana-alloy:
-    image: grafana/alloy:${ALLOY_VERSION}
-    container_name: devops-alloy
-    ports:
-      - "${ALLOY_PORT}:12345"
-    volumes:
-      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
-    command:  
-      - run
-      - --server.http.listen-addr=0.0.0.0:12345
-      - /etc/alloy/config.alloy
-    networks:
-      - monitoring_network
-    restart: unless-stopped
-    depends_on:
-      prom-http-simulator:
-        condition: service_healthy
-
-      prometheus:
-        condition: service_healthy
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION}
     container_name: devops-grafana
