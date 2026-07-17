@@ -122,6 +122,27 @@ Login utilizando as credenciais definidas no arquivo .env.
 
 - http://localhost:8080
 
+## Configuração do Datasource no Grafana
+
+O Grafana não vem com o datasource do Prometheus pré-configurado (não há
+provisioning automático nesta versão). Após subir a stack, é necessário
+configurar manualmente:
+
+1. Acesse o Grafana em `http://localhost:${GRAFANA_PORT}` e faça login
+   (usuário/senha definidos no `.env`, variáveis `GRAFANA_ADMIN_USER` e
+   `GRAFANA_ADMIN_PASSWORD`).
+2. Vá em **Connections → Data Sources → Add data source**.
+3. Selecione **Prometheus**.
+4. No campo **Connection > URL**, insira: `http://prometheus:9090`
+   (nome do serviço + porta interna, resolvidos pela rede Docker interna
+   `devops-monitoring-network` — não use `localhost` aqui).
+5. Clique em **Save & Test** para confirmar a conexão.
+
+> **Nota:** essa configuração fica persistida no volume `grafana_data`.
+> Se a stack for recriada em uma máquina limpa (sem esse volume já
+> existente), esse passo precisa ser repetido. Uma melhoria futura seria
+> automatizar isso via [provisioning de datasources do Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+
 ## Importando o Dashboard
 
 1. Acesse Grafana.
